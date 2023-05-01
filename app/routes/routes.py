@@ -1,31 +1,35 @@
+from fastapi import APIRouter
 import nltk
 from nltk.corpus import wordnet
-from fastapi import FastAPI
+
+router = APIRouter()
 
 
 
-
-app = FastAPI()
-
-
-@app.get("/")
+@router.get("/")
 async def root():
     return {"message": "Hello World, I am fastapi"}
 
 
 
-@app.get("/substitute")
-async def check(sentence: str):
-    return check_synonyms(sentence)
+@router.get("/substitute")
+async def check(sentence: str, words: str):
+    return substitute(sentence, words.split(','))
+
+@router.get("/synonyms")
+async def check(word: str):
+    return check_synonyms(word.split(',')[0])
      
 
+def check_synonyms(word):
+    synonyms = set()
+    for syn in wordnet.synsets(word):
+        for lemma in syn.lemma_names():
+            synonyms.add(lemma)
+    return synonyms
 
-def check_synonyms(sentence):
-    words = ['ubiquitous', 'melancholy', 'conundrum', 'quintessential', 'euphoria', 'clandestine', 
-         'tumultuous', 'surreptitious', 'unorthodox', 'salient', 'serendipity', 'formidable', 
-         'enigmatic', 'plethora', 'sagacious', 'ephemeral', 'insidious', 'facetious', 'myopic', 
-         'indelible','inscrutable']
 
+def substitute(sentence,words):
     tokens = nltk.word_tokenize(sentence)
     for i in range(len(tokens)):
             synonyms = set()
@@ -37,5 +41,4 @@ def check_synonyms(sentence):
                 if each in words:
                     tokens[i] = each
                     break
-
     return  " ".join(tokens)
