@@ -8,7 +8,10 @@
 3. Install dependencies
  `pip install -r requirements.txt`
 
-4. Run fast api server
+4. Install popular corpus from fastapi
+ `python -m nltk.downloader popular`
+
+5. Run fast api server
  `uvicorn app.main:app --reload`
 
 
