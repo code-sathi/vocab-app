@@ -23,3 +23,5 @@ Access the api docs along with execution option at
 This project also accompanies a jupyter notebook with useful nltk concepts.
 
 Run it with the command `jupyter-lab`
+
+[nltk basic parsing and pos tagging](nltk_basics_parsing.ipynb)
