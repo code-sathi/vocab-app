@@ -14,3 +14,9 @@
 
 Access the api docs along with execution option at 
  http://localhost:8000/docs
+
+
+### NLTK Notebook
+This project also accompanies a jupyter notebook with useful nltk concepts.
+
+Run it with the command `jupyter-lab`
