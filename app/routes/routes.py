@@ -1,7 +1,8 @@
 from fastapi import APIRouter
 import nltk
 from nltk.corpus import wordnet
-
+from app.services.hypernyms import hypernym_substitute
+from app.services.hyponyms import replace_with_hyponym
 router = APIRouter()
 
 
@@ -30,6 +31,7 @@ def check_synonyms(word):
 
 
 def substitute(sentence,words):
+    substitutes = []
     tokens = nltk.word_tokenize(sentence)
     for i in range(len(tokens)):
             synonyms = set()
@@ -41,4 +43,7 @@ def substitute(sentence,words):
                 if each in words:
                     tokens[i] = each
                     break
-    return  " ".join(tokens)
+    substitutes.append({"synonym_replacement":" ".join(tokens)[:-2]+"."})
+    substitutes.append({"hypernym_replacement":hypernym_substitute(sentence)[:-2]+"."})
+    substitutes.append({"hyponym_replacement":replace_with_hyponym(sentence)})
+    return substitutes
